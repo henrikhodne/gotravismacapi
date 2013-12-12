@@ -90,6 +90,15 @@ func (c *Client) InstanceInfo(instanceID string) (*Instance, error) {
 	return instance, err
 }
 
+func (c *Client) DestroyInstance(instanceID string) error {
+	req, err := c.newRequest("DELETE", fmt.Sprintf("instances/%s", url.QueryEscape(instanceID)), nil)
+	if err != nil {
+		return err
+	}
+
+	return c.do(req, nil)
+}
+
 func (c *Client) urlForPath(path string) *url.URL {
 	u, _ := url.Parse(path)
 	return c.BaseURL.ResolveReference(u)
