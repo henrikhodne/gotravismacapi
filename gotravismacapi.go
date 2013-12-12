@@ -3,6 +3,7 @@
 package gotravismacapi
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -48,7 +49,7 @@ func (c *Client) StartInstance(imageName, hostname string) (*Instance, error) {
 		return nil, err
 	}
 
-	req, err := c.newRequest("POST", fmt.Sprintf("instances?image=%s", url.QueryEscape(imageName)), startupInfo)
+	req, err := c.newRequest("POST", fmt.Sprintf("instances?image=%s", url.QueryEscape(imageName)), bytes.NewReader(startupInfo))
 	if err != nil {
 		return nil, err
 	}
