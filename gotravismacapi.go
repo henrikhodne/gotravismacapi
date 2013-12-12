@@ -53,7 +53,7 @@ func (c *Client) StartInstance(imageName, hostname string) (*Instance, error) {
 		return nil, err
 	}
 
-	instance := new(Insstance)
+	instance := new(Instance)
 	err = c.do(req, instance)
 	if err != nil {
 		return nil, err
