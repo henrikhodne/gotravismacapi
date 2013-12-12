@@ -42,13 +42,18 @@ func NewClient(baseURL *url.URL) *Client {
 	}
 }
 
-func (c *Client) StartInstance(imageName string) (*Instance, error) {
-	req, err := c.newRequest("POST", fmt.Sprintf("instances?image=%s", url.QueryEscape(imageName)), nil)
+func (c *Client) StartInstance(imageName, hostname string) (*Instance, error) {
+	startupInfo, err := json.Marshal(map[string]string{"hostname": hostname})
 	if err != nil {
 		return nil, err
 	}
 
-	instance := new(Instance)
+	req, err := c.newRequest("POST", fmt.Sprintf("instances?image=%s", url.QueryEscape(imageName)), startupInfo)
+	if err != nil {
+		return nil, err
+	}
+
+	instance := new(Insstance)
 	err = c.do(req, instance)
 	if err != nil {
 		return nil, err
